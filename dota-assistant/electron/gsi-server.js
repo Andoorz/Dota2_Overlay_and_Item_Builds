@@ -5,11 +5,14 @@ const app = express();
 
 let latestGameTime = 0;
 let latestGameState = "";
+let lastUpdateTime = Date.now();
 
 app.use(cors());
 app.use(express.json());
 
 app.post("/gsi", (req, res) => {
+
+  lastUpdateTime = Date.now();
 
   if (req.body.map?.clock_time !== undefined) {
     latestGameTime = req.body.map.clock_time;
@@ -29,8 +32,18 @@ app.get("/game-time", (req, res) => {
 });
 
 app.get("/game-state", (req, res) => {
+
+  const secondsSinceLastUpdate =
+    (Date.now() - lastUpdateTime) / 1000;
+
+  if (secondsSinceLastUpdate > 5) {
+    return res.json({
+      gameState: "OFFLINE"
+    });
+  }
+
   res.json({
-    gameState: latestGameState,
+    gameState: latestGameState
   });
 });
 

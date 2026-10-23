@@ -1,75 +1,174 @@
-# React + TypeScript + Vite
+# Dota Assistant
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight Dota 2 overlay built with Electron, React and Game State Integration (GSI).
 
-Currently, two official plugins are available:
+The goal of this project is to provide important objective timers and gameplay information without cluttering the screen.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+### Current Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+✅ Power Rune Timer
 
-## Expanding the ESLint configuration
+✅ Bounty Rune Timer
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+✅ Wisdom Rune Timer
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+✅ Tormentor Timer
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+✅ Automatic match detection
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+✅ Real-time game clock using Dota 2 GSI
 
+✅ Transparent overlay
+
+✅ Always-on-top window
+
+✅ Click-through overlay
+
+✅ Auto-hide when no match is active
+
+---
+
+## Planned Features
+
+🔲 Hero Detection
+
+🔲 Inventory Tracking
+
+🔲 Hero-specific Item Builds
+
+🔲 Item Recommendations
+
+🔲 Matchup Analysis
+
+🔲 Automatic Overlay Positioning
+
+🔲 Multi-monitor Support
+
+---
+
+## Tech Stack
+
+- React
+- TypeScript
+- Electron
+- Node.js
+- Express
+- Dota 2 Game State Integration (GSI)
+
+---
+
+## Installation
+
+### Clone the repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/dota-assistant.git
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+cd dota-assistant
 ```
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Start development mode
+
+```bash
+npm run electron-dev
+```
+
+---
+
+## Dota 2 Configuration
+
+Create the following folder:
+
+```text
+dota 2 beta/game/dota/cfg/gamestate_integration
+```
+
+Create:
+
+```text
+gamestate_integration_overlay.cfg
+```
+
+Paste:
+
+```cfg
+"dota2-gsi"
+{
+    "uri" "http://127.0.0.1:3000/gsi"
+
+    "timeout" "5.0"
+    "buffer" "0.1"
+    "throttle" "0.1"
+
+    "heartbeat" "30.0"
+
+    "data"
+    {
+        "map" "1"
+        "hero" "1"
+        "player" "1"
+        "items" "1"
+    }
+}
+```
+
+Restart Dota 2 after creating the file.
+
+---
+
+## How It Works
+
+Dota 2 sends match data through Game State Integration.
+
+```text
+Dota 2
+ ↓
+Game State Integration
+ ↓
+Express Server
+ ↓
+Electron
+ ↓
+React Overlay
+```
+
+The overlay reads:
+
+- Game Time
+- Match State
+- Hero Information
+- Inventory Data
+
+and presents useful information directly on screen.
+
+---
+
+## Disclaimer
+
+This application does not automate gameplay, read hidden information or interact with the game client.
+
+It only uses officially available Game State Integration data provided by Dota 2.
+
+---
+
+## Screenshots
+
+(Add screenshots here)
+
+---
+
+## Contributors
+
+Created by Andoorz.
+
+Contributions, bug reports and feature requests are welcome.
