@@ -17,13 +17,14 @@ function createWindow() {
   resizable: false
   
 });
+
   const { width } = screen.getPrimaryDisplay().workAreaSize;
   win.setPosition(
-  Math.floor(width / 2) - 250,
-  80
-);
+    Math.floor(width / 2) - 250,
+    70
+  );
   win.loadURL("http://localhost:5173");
-  
+  win.setIgnoreMouseEvents(true);
 }
 
 

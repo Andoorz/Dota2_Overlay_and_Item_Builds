@@ -12,24 +12,37 @@ function formatTime(seconds: number) {
 
 function App() {
   const [gameTime, setGameTime] = useState(0);
+  const [gameState, setGameState] = useState("");
 
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:3000/game-time"
-        );
+useEffect(() => {
 
-        const data = await response.json();
+  const interval = setInterval(async () => {
 
-        setGameTime(data.gameTime);
-      } catch (error) {
-        console.error(error);
-      }
-    }, 1000);
+    try {
 
-    return () => clearInterval(interval);
-  }, []);
+      const response = await fetch(
+        "http://localhost:3000/game-time"
+      );
+
+      const stateResponse = await fetch(
+        "http://localhost:3000/game-state"
+      );
+
+      const data = await response.json();
+      const stateData = await stateResponse.json();
+
+      setGameTime(data.gameTime);
+      setGameState(stateData.gameState);
+
+    } catch (error) {
+      console.error(error);
+    }
+
+  }, 1000);
+
+  return () => clearInterval(interval);
+
+}, []);
 
   const powerRune = 120 - (gameTime % 120);
 
@@ -46,6 +59,10 @@ function App() {
       : 0;
   
   const isPowerSoon = powerRune <= 15;
+
+  if (gameState !== "DOTA_GAMERULES_STATE_GAME_IN_PROGRESS") {
+    return null;
+  }
 
 return (
   <div className="top-bar">
